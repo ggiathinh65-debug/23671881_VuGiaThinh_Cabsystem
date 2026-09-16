@@ -315,6 +315,150 @@ Bước 12: Đặc Tả UseCase
 | **Hậu điều kiện**  | Đánh giá được lưu vào hệ thống.                                                           |
 
 
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC06 |
+| **Tên** | Quản lý tài khoản khách hàng |
+| **Actor** | Customer |
+| **Mục tiêu** | Khách hàng đăng ký, đăng nhập và cập nhật thông tin tài khoản. |
+| **Tiền điều kiện** | Người dùng chưa đăng nhập khi đăng ký/đăng nhập; đã đăng nhập khi cập nhật thông tin. |
+| **Luồng chính** | 1. Khách hàng chọn đăng ký/đăng nhập → 2. Nhập thông tin tài khoản → 3. Hệ thống kiểm tra thông tin → 4. Khách hàng truy cập hồ sơ → 5. Cập nhật thông tin → 6. Hệ thống lưu thông tin. |
+| **Hậu điều kiện** | Tài khoản được tạo hoặc thông tin cá nhân được cập nhật. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC07 |
+| **Tên** | Quản lý hồ sơ tài xế |
+| **Actor** | Driver, Nhân viên vận hành |
+| **Mục tiêu** | Tài xế đăng ký hoặc được nhân viên vận hành tạo tài khoản và cập nhật thông tin hồ sơ. |
+| **Tiền điều kiện** | Tài xế chưa có tài khoản khi đăng ký; tài khoản đã tồn tại khi cập nhật thông tin. |
+| **Luồng chính** | 1. Tài xế đăng ký hoặc nhân viên vận hành tạo tài khoản → 2. Đăng nhập → 3. Truy cập hồ sơ → 4. Nhập/cập nhật thông tin → 5. Hệ thống kiểm tra → 6. Lưu thông tin. |
+| **Hậu điều kiện** | Hồ sơ tài xế được tạo hoặc cập nhật trong hệ thống. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC08 |
+| **Tên** | Quản lý phương tiện |
+| **Actor** | Driver, Nhân viên vận hành |
+| **Mục tiêu** | Quản lý và cập nhật thông tin phương tiện của tài xế. |
+| **Tiền điều kiện** | Tài xế đã có tài khoản hoặc nhân viên vận hành có quyền quản lý. |
+| **Luồng chính** | 1. Truy cập thông tin phương tiện → 2. Nhập/cập nhật thông tin → 3. Gửi thông tin → 4. Hệ thống kiểm tra → 5. Lưu thông tin phương tiện. |
+| **Hậu điều kiện** | Thông tin phương tiện được lưu hoặc cập nhật trong hệ thống. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC09 |
+| **Tên** | Cập nhật trạng thái tài xế |
+| **Actor** | Driver |
+| **Mục tiêu** | Tài xế cập nhật trạng thái hoạt động để có thể nhận yêu cầu chuyến đi. |
+| **Tiền điều kiện** | Tài xế đã đăng nhập và tài khoản hợp lệ. |
+| **Luồng chính** | 1. Tài xế truy cập trạng thái hoạt động → 2. Chọn trạng thái sẵn sàng → 3. Hệ thống cập nhật trạng thái → 4. Tài xế có thể nhận yêu cầu chuyến phù hợp. |
+| **Hậu điều kiện** | Trạng thái hoạt động của tài xế được cập nhật trong hệ thống. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC10 |
+| **Tên** | Nhận và xử lý yêu cầu chuyến |
+| **Actor** | Driver |
+| **Mục tiêu** | Tài xế nhận thông báo yêu cầu chuyến phù hợp và chấp nhận hoặc từ chối chuyến. |
+| **Tiền điều kiện** | Tài xế đang ở trạng thái sẵn sàng và có yêu cầu chuyến phù hợp. |
+| **Luồng chính** | 1. Hệ thống gửi thông báo yêu cầu chuyến → 2. Tài xế xem thông tin chuyến → 3. Tài xế chấp nhận chuyến → 4. Hệ thống ghi nhận tài xế được phân công → 5. Hệ thống thông báo cho khách hàng. |
+| **Hậu điều kiện** | Chuyến đi được phân công cho tài xế hoặc hệ thống tiếp tục tìm tài xế khác. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC11 |
+| **Tên** | Cập nhật trạng thái chuyến |
+| **Actor** | Driver |
+| **Mục tiêu** | Tài xế cập nhật trạng thái hiện tại của chuyến đi. |
+| **Tiền điều kiện** | Tài xế đã chấp nhận chuyến đi. |
+| **Luồng chính** | 1. Tài xế đến điểm đón → 2. Cập nhật trạng thái đã đến → 3. Đón khách → 4. Cập nhật trạng thái đang di chuyển → 5. Hoàn thành chuyến → 6. Hệ thống lưu trạng thái chuyến. |
+| **Hậu điều kiện** | Trạng thái hiện tại của chuyến đi được cập nhật trong hệ thống. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC12 |
+| **Tên** | Cập nhật vị trí tài xế |
+| **Actor** | Driver, System |
+| **Mục tiêu** | Cập nhật vị trí tài xế để hỗ trợ tìm tài xế gần và theo dõi chuyến đi. |
+| **Tiền điều kiện** | Tài xế đang hoạt động và hệ thống có thể nhận thông tin vị trí. |
+| **Luồng chính** | 1. Xác định vị trí tài xế → 2. Tài xế gửi thông tin vị trí → 3. Hệ thống nhận thông tin → 4. Lưu/cập nhật vị trí → 5. Sử dụng vị trí cho việc tìm tài xế và theo dõi chuyến đi. |
+| **Hậu điều kiện** | Vị trí hiện tại của tài xế được cập nhật trong hệ thống. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC13 |
+| **Tên** | Quản lý thông báo |
+| **Actor** | System, Customer, Driver |
+| **Mục tiêu** | Hệ thống gửi thông báo đến khách hàng và tài xế khi xảy ra các sự kiện liên quan đến chuyến đi. |
+| **Tiền điều kiện** | Có sự kiện cần gửi thông báo cho khách hàng hoặc tài xế. |
+| **Luồng chính** | 1. Sự kiện xảy ra → 2. Hệ thống xác định người nhận → 3. Tạo thông báo → 4. Gửi thông báo → 5. Khách hàng hoặc tài xế nhận thông báo. |
+| **Hậu điều kiện** | Thông báo được gửi đến người nhận tương ứng. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC14 |
+| **Tên** | Quản lý khách hàng |
+| **Actor** | Nhân viên vận hành |
+| **Mục tiêu** | Nhân viên vận hành quản lý và tra cứu thông tin khách hàng. |
+| **Tiền điều kiện** | Nhân viên vận hành đã đăng nhập và có quyền quản lý khách hàng. |
+| **Luồng chính** | 1. Truy cập chức năng quản lý khách hàng → 2. Tìm kiếm khách hàng → 3. Xem thông tin → 4. Thực hiện quản lý/cập nhật thông tin → 5. Hệ thống lưu thay đổi. |
+| **Hậu điều kiện** | Thông tin khách hàng được tra cứu hoặc cập nhật theo quyền hạn. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC15 |
+| **Tên** | Quản lý tài xế và chuyến đi |
+| **Actor** | Nhân viên vận hành |
+| **Mục tiêu** | Nhân viên vận hành theo dõi tài xế, chuyến đi và xử lý các vấn đề phát sinh trong chuyến. |
+| **Tiền điều kiện** | Nhân viên vận hành đã đăng nhập và có quyền quản lý. |
+| **Luồng chính** | 1. Truy cập chức năng quản lý → 2. Xem danh sách tài xế và chuyến đi → 3. Kiểm tra trạng thái → 4. Phát hiện và xử lý lỗi chuyến đi → 5. Cập nhật kết quả xử lý. |
+| **Hậu điều kiện** | Thông tin tài xế/chuyến đi được theo dõi hoặc lỗi chuyến đi được xử lý. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC16 |
+| **Tên** | Tra cứu lịch sử giao dịch |
+| **Actor** | Nhân viên vận hành |
+| **Mục tiêu** | Nhân viên vận hành tra cứu lịch sử các giao dịch thanh toán. |
+| **Tiền điều kiện** | Nhân viên vận hành đã đăng nhập và có quyền tra cứu giao dịch. |
+| **Luồng chính** | 1. Truy cập lịch sử giao dịch → 2. Nhập tiêu chí tìm kiếm → 3. Hệ thống tìm kiếm giao dịch → 4. Hiển thị kết quả → 5. Nhân viên vận hành xem thông tin giao dịch. |
+| **Hậu điều kiện** | Lịch sử giao dịch được hiển thị theo tiêu chí tìm kiếm. |
+
+
+
+| Thành phần | Nội dung |
+|------------|----------|
+| **Use Case ID** | UC17 |
+| **Tên** | Xem báo cáo vận hành |
+| **Actor** | Nhân viên vận hành, Ban lãnh đạo |
+| **Mục tiêu** | Theo dõi số lượng chuyến đi, doanh thu, tỷ lệ hoàn thành/hủy chuyến và hiệu suất tài xế. |
+| **Tiền điều kiện** | Người dùng đã đăng nhập và có quyền xem báo cáo. |
+| **Luồng chính** | 1. Truy cập chức năng báo cáo → 2. Chọn loại báo cáo và khoảng thời gian → 3. Hệ thống tổng hợp dữ liệu → 4. Hiển thị báo cáo → 5. Người dùng xem kết quả. |
+| **Hậu điều kiện** | Báo cáo vận hành được hiển thị cho người dùng. |
+
+
 Bước 13: Tiêu chí chấp nhập (AC)
 | AC ID    | Chức năng              | Tiêu chí chấp nhận                                                            |
 | -------- | ---------------------- | ----------------------------------------------------------------------------- |
