@@ -1,0 +1,510 @@
+openapi: 3.0.3
+info:
+  title: CAB System API - Payments
+  description: API nhóm Payments, tách từ cab-system-api.yaml.
+  version: 1.0.0
+servers:
+- url: https://api.cabsystem.com/v1
+  description: Production
+- url: https://staging-api.cabsystem.com/v1
+  description: Staging
+tags:
+- name: Payments
+  description: Thanh toán chuyến đi (UC04, FR13)
+security:
+- bearerAuth: []
+paths:
+  /payments:
+    post:
+      tags:
+      - Payments
+      summary: Thực hiện thanh toán chuyến đi (UC04, FR13, AC08)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentCreateRequest'
+      responses:
+        '201':
+          description: Giao dịch được ghi nhận thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '402':
+          description: Thanh toán điện tử thất bại (BP-P03)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /payments/{paymentId}:
+    get:
+      tags:
+      - Payments
+      summary: Xem chi tiết giao dịch thanh toán
+      parameters:
+      - $ref: '#/components/parameters/PaymentId'
+      responses:
+        '200':
+          description: Chi tiết giao dịch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+  /payments/{paymentId}/retry:
+    post:
+      tags:
+      - Payments
+      summary: Thanh toán lại sau khi thất bại (BP-P03)
+      parameters:
+      - $ref: '#/components/parameters/PaymentId'
+      responses:
+        '200':
+          description: Kết quả thanh toán lại
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    CustomerId:
+      name: customerId
+      in: path
+      required: true
+      schema:
+        type: string
+    DriverId:
+      name: driverId
+      in: path
+      required: true
+      schema:
+        type: string
+    TripId:
+      name: tripId
+      in: path
+      required: true
+      schema:
+        type: string
+    VehicleId:
+      name: vehicleId
+      in: path
+      required: true
+      schema:
+        type: string
+    PaymentId:
+      name: paymentId
+      in: path
+      required: true
+      schema:
+        type: string
+    FromDate:
+      name: from
+      in: query
+      schema:
+        type: string
+        format: date
+    ToDate:
+      name: to
+      in: query
+      schema:
+        type: string
+        format: date
+  responses:
+    BadRequest:
+      description: Dữ liệu đầu vào không hợp lệ
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Không tìm thấy tài nguyên
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    UserRole:
+      type: string
+      enum:
+      - customer
+      - driver
+      - operator
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+        username:
+          type: string
+        role:
+          $ref: '#/components/schemas/UserRole'
+        name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+    RegisterRequest:
+      type: object
+      required:
+      - username
+      - password
+      - role
+      - name
+      - phone
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+        role:
+          $ref: '#/components/schemas/UserRole'
+        name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+    UserUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+    LoginRequest:
+      type: object
+      required:
+      - username
+      - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+    AuthToken:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        tokenType:
+          type: string
+          example: Bearer
+        expiresIn:
+          type: integer
+    Location:
+      type: object
+      required:
+      - latitude
+      - longitude
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+        address:
+          type: string
+    Customer:
+      type: object
+      properties:
+        customerId:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        currentLocation:
+          $ref: '#/components/schemas/Location'
+    DriverStatus:
+      type: string
+      enum:
+      - available
+      - busy
+      - offline
+    Driver:
+      type: object
+      properties:
+        driverId:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        status:
+          $ref: '#/components/schemas/DriverStatus'
+        currentLocation:
+          $ref: '#/components/schemas/Location'
+        rating:
+          type: number
+          format: float
+    VehicleType:
+      type: string
+      enum:
+      - bike
+      - standard
+      - premium
+      - suv
+    Vehicle:
+      type: object
+      properties:
+        vehicleId:
+          type: string
+        driverId:
+          type: string
+        type:
+          $ref: '#/components/schemas/VehicleType'
+        licensePlate:
+          type: string
+    VehicleCreateRequest:
+      type: object
+      required:
+      - type
+      - licensePlate
+      properties:
+        type:
+          $ref: '#/components/schemas/VehicleType'
+        licensePlate:
+          type: string
+    TripStatus:
+      type: string
+      description: 'Trình tự trạng thái theo BR06: requested → driver_assigned → arrived_pickup
+        → picked_up → in_progress → completed / cancelled / no_driver_found.
+
+        '
+      enum:
+      - requested
+      - driver_assigned
+      - arrived_pickup
+      - picked_up
+      - in_progress
+      - completed
+      - cancelled
+      - no_driver_found
+    TripCreateRequest:
+      type: object
+      required:
+      - customerId
+      - pickup
+      - destination
+      - vehicleType
+      properties:
+        customerId:
+          type: string
+        pickup:
+          $ref: '#/components/schemas/Location'
+        destination:
+          $ref: '#/components/schemas/Location'
+        vehicleType:
+          $ref: '#/components/schemas/VehicleType'
+    Trip:
+      type: object
+      properties:
+        tripId:
+          type: string
+        customerId:
+          type: string
+        driverId:
+          type: string
+          nullable: true
+        pickup:
+          $ref: '#/components/schemas/Location'
+        destination:
+          $ref: '#/components/schemas/Location'
+        status:
+          $ref: '#/components/schemas/TripStatus'
+        distance:
+          type: number
+          format: float
+          description: Khoảng cách tính bằng km
+        fare:
+          type: number
+          format: float
+        createdAt:
+          type: string
+          format: date-time
+    TripTracking:
+      type: object
+      properties:
+        tripId:
+          type: string
+        status:
+          $ref: '#/components/schemas/TripStatus'
+        driverLocation:
+          $ref: '#/components/schemas/Location'
+        updatedAt:
+          type: string
+          format: date-time
+    Fare:
+      type: object
+      properties:
+        tripId:
+          type: string
+        amount:
+          type: number
+          format: float
+        currency:
+          type: string
+          example: VND
+    PaymentMethod:
+      type: string
+      enum:
+      - cash
+      - e_wallet
+      - credit_card
+    PaymentStatus:
+      type: string
+      enum:
+      - pending
+      - success
+      - failed
+    PaymentCreateRequest:
+      type: object
+      required:
+      - tripId
+      - method
+      properties:
+        tripId:
+          type: string
+        method:
+          $ref: '#/components/schemas/PaymentMethod'
+    Payment:
+      type: object
+      properties:
+        paymentId:
+          type: string
+        tripId:
+          type: string
+        amount:
+          type: number
+          format: float
+        method:
+          $ref: '#/components/schemas/PaymentMethod'
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+        createdAt:
+          type: string
+          format: date-time
+    RatingCreateRequest:
+      type: object
+      required:
+      - score
+      properties:
+        score:
+          type: integer
+          minimum: 1
+          maximum: 5
+        comment:
+          type: string
+    Rating:
+      type: object
+      properties:
+        ratingId:
+          type: string
+        tripId:
+          type: string
+        customerId:
+          type: string
+        driverId:
+          type: string
+        score:
+          type: integer
+        comment:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    NotificationType:
+      type: string
+      enum:
+      - trip
+      - payment
+      - system
+    Notification:
+      type: object
+      properties:
+        notificationId:
+          type: string
+        userId:
+          type: string
+        content:
+          type: string
+        type:
+          $ref: '#/components/schemas/NotificationType'
+        status:
+          type: string
+          enum:
+          - unread
+          - read
+        createdAt:
+          type: string
+          format: date-time
+    TripReport:
+      type: object
+      properties:
+        totalTrips:
+          type: integer
+        completedTrips:
+          type: integer
+        cancelledTrips:
+          type: integer
+        completionRate:
+          type: number
+          format: float
+        cancellationRate:
+          type: number
+          format: float
+    RevenueReport:
+      type: object
+      properties:
+        totalRevenue:
+          type: number
+          format: float
+        currency:
+          type: string
+          example: VND
+        breakdown:
+          type: array
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+              revenue:
+                type: number
+                format: float
+    DriverPerformance:
+      type: object
+      properties:
+        driverId:
+          type: string
+        driverName:
+          type: string
+        totalTrips:
+          type: integer
+        completedTrips:
+          type: integer
+        averageRating:
+          type: number
+          format: float
